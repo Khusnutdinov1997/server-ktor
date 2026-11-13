@@ -395,7 +395,27 @@ class HeroRepositoryImpl: HeroRepository {
     }
 
     override suspend fun searchHero(name: String): ApiResponse {
+       return ApiResponse(
+           success = true,
+           message = "OK",
+           heroes = findHeroes(name)
+       )
+    }
 
+    private fun findHeroes(name: String?):List<Hero>{
+        val findHeroes = mutableListOf<Hero>()
+        return if (!name.isNullOrBlank()) {
+            heroes.forEach { (pageNumber, heroes) ->
+                heroes.forEach { hero ->
+                    if (name.lowercase().contains(hero.name.lowercase())) {
+                        findHeroes.add(hero)
+                    }
+                }
+            }
+            findHeroes
+        }else{
+            emptyList()
+        }
     }
 
 }
