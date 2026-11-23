@@ -1,13 +1,18 @@
 package com.example
 
+import com.example.repository.HeroRepository
+import com.example.routes.getAllHeroes
+import com.example.routes.root
+import com.example.routes.searchHeroes
 import io.ktor.server.application.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
+    val heroRepository: HeroRepository by inject()
     routing {
-        get("/") {
-            call.respondText("Hello, World!")
-        }
+        root()
+        getAllHeroes(heroRepository)
+        searchHeroes(heroRepository)
     }
 }
